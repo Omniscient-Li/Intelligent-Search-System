@@ -1,49 +1,21 @@
-# Intelligent Search System 
+# Intelligent Search System
 
-An intelligent product retrieval system that combines online search with local semantic search, providing expert advisor-style recommendations for Richelieu hardware products.
+An intelligent product retrieval system that provides real-time, expert advisor-style recommendations for Richelieu hardware products—no local data or deployment required.
 
 ## 🎯 Features
 
-- **Hybrid Search**: Combines Browser-use online search with local FAISS semantic search
-- **AI Recommendations**: Expert advisor-style recommendations using Azure OpenAI
-- **Product Field Completion**: All product results are automatically completed with required fields; missing data is filled with defaults for consistent, structured output (ideal for UI/frontend integration)
-- **Professional Recommendation System**: Scenario-based, expert template recommendations with detailed, friendly, and professional advice
-- **Friendly Interface**: User-friendly CLI with interactive commands
-- **Modular Architecture**: Clean, maintainable code structure
-- **Robust Fallback**: Local backup when online search fails
-
-## 🏗️ Architecture
-
-```
-Intelligent Search System/
-├── src/
-│   ├── core/                 # Core functionality
-│   │   ├── search_engine.py  # Main search orchestrator
-│   │   ├── browser_search.py # Browser-use online search
-│   │   ├── local_search.py   # Local semantic search
-│   │   └── recommendation.py # AI recommendation system
-│   ├── utils/                # Utilities
-│   │   ├── config.py         # Configuration management
-│   │   ├── logger.py         # Logging system
-│   │   └── helpers.py        # Helper functions
-│   └── ui/                   # User interface
-│       └── cli.py           # Command line interface
-├── data/                     # Data storage
-│   ├── embeddings/          # FAISS embeddings cache
-│   └── indexes/             # FAISS index cache
-├── config/                   # Configuration files
-├── tests/                    # Test files
-├── docs/                     # Documentation
-├── logs/                     # Log files
-├── main.py                   # Main entry point
-└── requirements.txt          # Dependencies
-```
+- **Real-Time Online Search**: Instantly retrieves product data from Richelieu via Browser-use, no local data required.
+- **Expert AI Recommendations**: Professional, scenario-based suggestions using Azure OpenAI.
+- **Product Field Completion**: All product results are automatically completed with required fields; missing data is filled with defaults for consistent, structured output (ideal for UI/frontend integration).
+- **Professional Recommendation System**: Scenario-based, expert template recommendations with detailed, friendly, and professional advice.
+- **User-Friendly CLI**: Simple, interactive command-line interface.
+- **No Local Data Needed**: No CSV, no embeddings, no local index—just configure and run.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-1. **Python 3.8+**
+1. **Python 3.11+** (recommended)
 2. **Azure OpenAI API** credentials
 3. **Browser-use** for online search
 
@@ -54,18 +26,15 @@ Intelligent Search System/
    git clone <repository-url>
    cd Intelligent Search System
    ```
-
 2. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
-
 3. **Set up environment variables**
    Copy the example environment file and configure it:
    ```bash
    cp env.example .env
    ```
-   
    Edit `.env` file with your actual values:
    ```env
    AZURE_OPENAI_API_KEY=your_api_key_here
@@ -74,27 +43,16 @@ Intelligent Search System/
    AZURE_OPENAI_API_VERSION=2024-02-15-preview
    ```
 
-4. **Prepare data files**
-   - Place your CSV product data in the specified path
-   - The system will automatically generate embeddings and indexes
-
 ### Usage
 
 #### Interactive Mode (Default)
 ```bash
 python main.py
-# or
-python main.py --interactive
 ```
 
 #### Single Search Query
 ```bash
 python main.py --search "kitchen drawer handle"
-```
-
-#### System Test
-```bash
-python main.py --test
 ```
 
 #### Help
@@ -107,25 +65,16 @@ python main.py --help
 When in interactive mode, you can use these commands:
 
 - `exit` - Exit the system
-- `backup on/off` - Enable/disable local backup search
-- `mode` - Show current search mode
+- `mode` - Show current search mode (should be Online-Only)
 - `status` - Show system status
 - `test` - Run test search
 
-## 📊 Search Modes
+## 📊 Search Mode
 
-### Hybrid Mode (Default)
-- **Online Search**: Real-time data from Richelieu using Browser-use
-- **Local Backup**: FAISS semantic search when online fails
-- **Best Performance**: Combines speed and reliability
-
-### Online-Only Mode
-- **Browser-use Only**: Real-time data from Richelieu
-- **No Local Backup**: Faster but less reliable
-
-### Local-Only Mode
-- **Local Data Only**: FAISS semantic search
-- **Fast Response**: No network dependency
+### Online-Only Mode (Default)
+- **All product data and recommendations are fetched in real time from Richelieu via Browser-use.**
+- **No local CSV, embeddings, or index required.**
+- **Fast, up-to-date, and zero-maintenance.**
 
 ## 🤖 AI Recommendations
 
@@ -139,20 +88,6 @@ The system provides expert advisor-style recommendations that include:
 - **Image Preview & Purchase Link**: If available, recommendations include product images (Markdown format) and direct purchase links for easy access
 - **Scenario-based & Professional**: Recommendations use a structured, expert template, considering user scenarios, style compatibility, and practical advice
 - **Consistent Output**: All recommendations are structured, sectioned, and easy to read for both users and UI integration
-
-## 🔍 Search Features
-
-### Online Search (Browser-use)
-- Real-time product data from Richelieu
-- Detailed product information extraction
-- Automatic login and navigation
-- JSON data parsing and validation
-
-### Local Search (FAISS)
-- Semantic search using sentence transformers
-- Fast similarity matching
-- Cached embeddings and indexes
-- Fallback when online search fails
 
 ## 📁 Data Structure
 
@@ -174,7 +109,7 @@ The system provides expert advisor-style recommendations that include:
   "technical_specs": "Technical specifications",
   "certifications": "Certifications",
   "warranty": "Warranty information",
-  "source": "Data source (browser-use/local)",
+  "source": "Data source (browser-use)",
   "search_query": "Original user query",
   "search_time": "Time taken for search (seconds)"
 }
@@ -189,24 +124,16 @@ All product results are guaranteed to include all fields above; missing or unava
 - `AZURE_OPENAI_DEPLOYMENT_NAME`: Your deployment name
 - `AZURE_OPENAI_API_VERSION`: API version
 
-### Search Configuration
-- `max_products`: Maximum products to return (default: 5)
-- `enable_backup`: Enable local backup search (default: true)
-- `model_name`: Sentence transformer model (default: all-MPNET-base-v2)
-
 ## 📝 Logging
 
 The system provides comprehensive logging:
-
 - **Console Output**: Real-time status and progress
-- **File Logs**: Detailed logs in `logs/` directory
 - **Search Tracking**: Query, results, and timing information
 - **Error Handling**: Detailed error messages and stack traces
 
 ## 🧪 Testing
 
 Run the system test to verify all components:
-
 ```bash
 python main.py --test
 ```
@@ -217,59 +144,10 @@ This will:
 - Generate a test recommendation
 - Verify system functionality
 
-## 🔧 Development
-
-### Project Structure
-- **Modular Design**: Each component is self-contained
-- **Clean Interfaces**: Clear API boundaries
-- **Error Handling**: Comprehensive exception handling
-- **Type Hints**: Full type annotation support
-
-### Adding New Features
-1. Create new modules in appropriate directories
-2. Follow existing patterns and conventions
-3. Add tests for new functionality
-4. Update documentation
-
-### Debugging
-- Check logs in `logs/` directory
-- Use `--test` mode for component verification
-- Enable debug logging for detailed information
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📞 Support
-
-For issues and questions:
-- Check the logs for error details
-- Review the configuration settings
-- Test individual components
-- Create an issue with detailed information
-
-## 🔄 Version History
-
-### v2.0
-- Complete modular restructuring
-- Enhanced AI recommendations
-- Improved error handling
-- Better user interface
-- Comprehensive documentation
-
-### v1.0
-- Initial implementation
-- Basic search functionality
-- Simple recommendations
-
 ---
 
-**Intelligent Search System** - Making product discovery intelligent and friendly! 🚀 
+**Intelligent Search System** — Making product discovery intelligent, real-time, and friendly! 🚀 
