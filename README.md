@@ -1,4 +1,4 @@
-# Intelligent Search System v2.0
+# Intelligent Search System 
 
 An intelligent product retrieval system that combines online search with local semantic search, providing expert advisor-style recommendations for Richelieu hardware products.
 
