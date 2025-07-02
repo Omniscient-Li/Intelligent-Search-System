@@ -166,4 +166,37 @@ def format_dimensions(dimensions: Any) -> str:
                 parts.append(f"{key}: {value}")
         return ", ".join(parts) if parts else "Dimension information not provided"
     
-    return str(dimensions) 
+    return str(dimensions)
+
+def fill_missing_product_fields(product: Dict[str, Any]) -> Dict[str, Any]:
+    """Ensure all required product fields are present, fill missing with default values."""
+    required_fields = [
+        'name', 'price', 'image_url', 'product_url', 'description', 'sku', 'dimensions',
+        'material', 'finish', 'installation', 'weight', 'package_contents',
+        'technical_specs', 'certifications', 'warranty', 'source', 'search_query', 'search_time'
+    ]
+    defaults = {
+        'name': 'Unknown Product',
+        'price': 'Price not shown',
+        'image_url': '',
+        'product_url': '',
+        'description': 'No description available',
+        'sku': '',
+        'dimensions': '',
+        'material': '',
+        'finish': '',
+        'installation': '',
+        'weight': '',
+        'package_contents': '',
+        'technical_specs': '',
+        'certifications': '',
+        'warranty': '',
+        'source': '',
+        'search_query': '',
+        'search_time': ''
+    }
+    filled = product.copy()
+    for field in required_fields:
+        if field not in filled or pd.isna(filled[field]) or filled[field] is None:
+            filled[field] = defaults[field]
+    return filled 

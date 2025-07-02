@@ -6,6 +6,8 @@ An intelligent product retrieval system that combines online search with local s
 
 - **Hybrid Search**: Combines Browser-use online search with local FAISS semantic search
 - **AI Recommendations**: Expert advisor-style recommendations using Azure OpenAI
+- **Product Field Completion**: All product results are automatically completed with required fields; missing data is filled with defaults for consistent, structured output (ideal for UI/frontend integration)
+- **Professional Recommendation System**: Scenario-based, expert template recommendations with detailed, friendly, and professional advice
 - **Friendly Interface**: User-friendly CLI with interactive commands
 - **Modular Architecture**: Clean, maintainable code structure
 - **Robust Fallback**: Local backup when online search fails
@@ -134,6 +136,9 @@ The system provides expert advisor-style recommendations that include:
 - **Material Selection**: Professional insights on materials
 - **Usage Advice**: Maintenance and care recommendations
 - **Personalized Suggestions**: Tailored to user needs
+- **Image Preview & Purchase Link**: If available, recommendations include product images (Markdown format) and direct purchase links for easy access
+- **Scenario-based & Professional**: Recommendations use a structured, expert template, considering user scenarios, style compatibility, and practical advice
+- **Consistent Output**: All recommendations are structured, sectioned, and easy to read for both users and UI integration
 
 ## 🔍 Search Features
 
@@ -168,9 +173,13 @@ The system provides expert advisor-style recommendations that include:
   "package_contents": "Package contents",
   "technical_specs": "Technical specifications",
   "certifications": "Certifications",
-  "warranty": "Warranty information"
+  "warranty": "Warranty information",
+  "source": "Data source (browser-use/local)",
+  "search_query": "Original user query",
+  "search_time": "Time taken for search (seconds)"
 }
 ```
+All product results are guaranteed to include all fields above; missing or unavailable data is filled with a default value for consistency.
 
 ## 🛠️ Configuration
 

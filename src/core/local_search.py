@@ -14,7 +14,7 @@ from typing import List, Dict, Any
 
 from ..utils.config import config
 from ..utils.logger import logger
-from ..utils.helpers import calculate_similarity_score, safe_str
+from ..utils.helpers import calculate_similarity_score, safe_str, fill_missing_product_fields
 
 class LocalSearch:
     """Local Semantic Search Class"""
@@ -110,7 +110,7 @@ class LocalSearch:
                 product['source'] = 'local'
                 product['search_query'] = query
                 product['search_time'] = time.time() - start_time
-                results.append(product)
+                results.append(fill_missing_product_fields(product))
             
             duration = time.time() - start_time
             logger.local_search_complete(query, len(results), duration)

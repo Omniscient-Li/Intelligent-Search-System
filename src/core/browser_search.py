@@ -22,7 +22,7 @@ except ImportError as e:
 
 from ..utils.config import config
 from ..utils.logger import logger
-from ..utils.helpers import extract_json_from_text, flatten_products
+from ..utils.helpers import extract_json_from_text, flatten_products, fill_missing_product_fields
 
 class BrowserUseSearch:
     """Browser-use Search Class"""
@@ -126,6 +126,8 @@ class BrowserUseSearch:
                 product['source'] = 'browser-use'
                 product['search_query'] = query
                 product['search_time'] = duration
+            # 字段补全
+            products = [fill_missing_product_fields(p) for p in products]
             
             # Update product count in logs
             logger.browser_search_complete(query, len(products), duration)

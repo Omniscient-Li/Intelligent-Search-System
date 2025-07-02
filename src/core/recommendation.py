@@ -88,6 +88,8 @@ Please provide a comprehensive recommendation that includes:
    - Installation requirements and considerations
    - Usage advice and best practices
    - Price information (if available)
+   - **Image Preview**: If image URL is available, provide a markdown image tag: ![Product Image](image_url)
+   - **Purchase Link**: If product URL is available, provide a markdown link: [View & Buy](product_url)
 4. **Expert Tips**: Share professional insights about:
    - Material selection considerations
    - Installation best practices
@@ -120,6 +122,7 @@ Focus on being helpful and informative while maintaining a friendly, approachabl
             certifications = safe_str(product.get('certifications', ''))
             warranty = safe_str(product.get('warranty', ''))
             product_url = safe_str(product.get('product_url', product.get('Product URL', '')))
+            image_url = safe_str(product.get('image_url', product.get('Image URL', '')))
             
             formatted_product = f"""
 Product {i}: {name}
@@ -136,6 +139,7 @@ Product {i}: {name}
 - Certifications: {certifications}
 - Warranty: {warranty}
 - Product URL: {product_url}
+- Image Preview: {image_url if image_url else 'No image available'}
 """
             formatted_products.append(formatted_product)
         
