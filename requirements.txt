@@ -1,0 +1,25 @@
+# Intelligent Search System v2.0 Dependencies
+
+# Core dependencies
+pandas>=1.5.0
+numpy>=1.21.0
+faiss-cpu>=1.7.0
+sentence-transformers>=2.2.0
+
+# Azure OpenAI
+openai>=1.0.0
+langchain-openai>=0.1.0
+
+# Browser-use
+browser-use>=0.1.0
+
+# Environment variable management
+python-dotenv>=0.19.0
+
+# Logging and utilities
+colorama>=0.4.0
+tqdm>=4.64.0
+
+# Development and testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0 
