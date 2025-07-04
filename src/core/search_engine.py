@@ -56,67 +56,22 @@ class SearchEngine:
         else:
             raise ValueError("❌ No available search methods")
     
-    async def search_products(self, query: str, max_products: int = None, enable_backup: bool = None) -> List[Dict[str, Any]]:
+    async def search_products(self, query: str, max_products: int = None, enable_backup: bool = None) -> str:
         """
         Search for products
-        
-        Args:
-            query (str): Search query
-            max_products (int): Maximum number of products
-            enable_backup (bool): Whether to enable backup search
-            
-        Returns:
-            list: Product list
+        Returns: result.md file path (str) or None
         """
-        # Use configuration defaults
         if max_products is None:
             max_products = config.max_products
         if enable_backup is None:
             enable_backup = config.enable_backup
-        
-        start_time = time.time()
         logger.search_start(query)
-        print(f"\n=== Searching Richelieu Product Catalog: '{query}' ===")
-        
-        # Fuzzy/semantic query expansion
-        context = self.search_enhancer.enhance_query(query)
-        expanded_queries = context.expanded_queries
-        all_products = []
-        for expanded_query in expanded_queries:
-            # 1. Online search (if available)
-            if self.browser_search:
-                online_products = await self.browser_search.search_products(expanded_query, max_products)
-                print(f"DEBUG: Online search parsed product count: {len(online_products)}")
-                print(f"DEBUG: Online product content: {online_products[:2]}")
-                all_products.extend(online_products)
-                print(f"🌐 Online search found {len(online_products)} products")
-            # 2. Local backup search (if enabled and online search failed)
-            if (enable_backup and self.local_search.is_available() and len(all_products) == 0):
-                print("🔄 No online results, trying local backup...")
-                local_products = self.local_search.search(expanded_query, top_k=3)
-                print(f"DEBUG: Local search parsed product count: {len(local_products)}")
-                print(f"DEBUG: Local product content: {local_products[:2]}")
-                all_products.extend(local_products)
-                print(f"💾 Local backup found {len(local_products)} products")
-        
-        # Remove duplicates by product_url or name
-        seen = set()
-        unique_products = []
-        for p in all_products:
-            key = p.get('product_url') or p.get('name')
-            if key and key not in seen:
-                unique_products.append(p)
-                seen.add(key)
-        
-        # 3. Sort results
-        unique_products = sort_products_by_relevance(unique_products)
-        print(f"📊 Total found {len(unique_products)} products")
-        print(f"DEBUG: Final product content: {unique_products[:2]}")
-        
-        duration = time.time() - start_time
-        logger.search_complete(query, len(unique_products), duration)
-        
-        return unique_products
+        # 只做在线搜索，返回 markdown 路径
+        if self.browser_search:
+            result_path = await self.browser_search.search_products(query, max_products)
+            if result_path:
+                return result_path
+        return None
     
     def generate_recommendation(self, query: str, products: List[Dict[str, Any]]) -> str:
         """Generate AI recommendation"""
