@@ -150,4 +150,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
+<<<<<<< HEAD
+**Intelligent Search System** — Making product discovery intelligent, real-time, and friendly! 🚀 
+=======
+**Intelligent Search System** — Making product discovery intelligent, real-time, and friendly! 🚀 
+>>>>>>> ece3943 (feat: unify output to only print results.md content, remove all structured parsing and debug output (align with semantic_search_v2.py))
+
+---
+
 **Intelligent Search System** — Making product discovery intelligent, real-time, and friendly! 🚀 
