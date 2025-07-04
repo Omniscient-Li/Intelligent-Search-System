@@ -45,19 +45,12 @@ class BrowserUseSearch:
             temperature=0.1
         )
     
-    async def search_products(self, query: str, max_products: int = 5) -> List[Dict[str, Any]]:
+    async def search_products(self, query: str, max_products: int = 5) -> str:
         """
         Search Richelieu products using Browser-use
-        
-        Args:
-            query (str): Search query
-            max_products (int): Maximum number of products
-            
-        Returns:
-            list: Product list
+        Returns: result.md file path (str) or None
         """
         logger.browser_search_start(query)
-        
         task = f"""
         Go to {config.richelieu_url}
         
@@ -108,35 +101,22 @@ class BrowserUseSearch:
         
         IMPORTANT: Extract as much detailed information as possible from the product pages. This information will be used to provide comprehensive recommendations to customers.
         """
-        
         try:
             start_time = time.time()
             agent = Agent(task=task, llm=self.llm)
             result = await agent.run()
             end_time = time.time()
-            
             duration = end_time - start_time
-            logger.browser_search_complete(query, 0, duration)  # Temporarily set to 0, will update later
-            
-            # Parse results
-            products = self._extract_json_from_result(result)
-            
-            # Add metadata
-            for product in products:
-                product['source'] = 'browser-use'
-                product['search_query'] = query
-                product['search_time'] = duration
-            # 字段补全
-            products = [fill_missing_product_fields(p) for p in products]
-            
-            # Update product count in logs
-            logger.browser_search_complete(query, len(products), duration)
-            
-            return products
-            
-        except Exception as e:
-            logger.error(f"❌ Browser-use search failed: {e}")
-            return []
+            logger.browser_search_complete(query, 0, duration)
+            # 直接返回 markdown 路径（如果有）
+            if hasattr(result, 'output') and isinstance(result.output, str) and result.output.strip().endswith('.md') and os.path.exists(result.output.strip()):
+                return result.output.strip()
+            elif isinstance(result, str) and result.strip().endswith('.md') and os.path.exists(result.strip()):
+                return result.strip()
+            # fallback: None
+            return None
+        except Exception:
+            return None
     
     def _extract_json_from_result(self, result_content: Any) -> List[Dict[str, Any]]:
         """Extract JSON data from Browser-use results, supporting multiple return formats and nested structures"""
@@ -170,6 +150,9 @@ class BrowserUseSearch:
             logger.error(f"JSON extraction failed: {e}")
             return []
     
+    def is_available(self) -> bool:
+        """Check if Browser-use search is available"""
+        return BROWSER_USE_AVAILABLE 
     def is_available(self) -> bool:
         """Check if Browser-use search is available"""
         return BROWSER_USE_AVAILABLE 
