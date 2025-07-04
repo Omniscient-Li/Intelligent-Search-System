@@ -68,34 +68,13 @@ async def run_single_search(query: str):
     print(f"🔍 Searching for: '{query}'")
     
     try:
-        # Initialize search engine
         engine = SearchEngine()
-        
-        # Perform search
-        products = await engine.search_products(query)
-        
-        if not products:
-            print("❌ No products found for your search.")
-            print("💡 Try using different keywords or more general terms.")
-            return False
-        
-        # Generate recommendation
-        print("\n🤖 Generating expert recommendation...")
-        recommendation = engine.generate_recommendation(query, products)
-        
-        # Display results
-        print("\n" + "=" * 60)
-        print("🎯 EXPERT RECOMMENDATION")
-        print("=" * 60)
-        print(recommendation)
-        print("=" * 60)
-        
-        return True
-        
-    except Exception as e:
-        logger.error(f"❌ Search failed: {e}")
-        print(f"❌ Search failed: {e}")
-        return False
+        result_path = await engine.search_products(query)
+        if isinstance(result_path, str) and result_path.strip().endswith('.md') and os.path.exists(result_path.strip()):
+            with open(result_path.strip(), 'r', encoding='utf-8') as f:
+                print(f.read())
+    except Exception:
+        pass
 
 def show_help():
     """Show help information"""
