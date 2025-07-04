@@ -6,6 +6,7 @@ Provides interactive CLI for the intelligent search system
 
 import asyncio
 import sys
+import os
 from typing import Optional
 
 from ..core.search_engine import SearchEngine
@@ -104,33 +105,13 @@ class CLI:
     async def _perform_search(self, query: str):
         """Perform product search"""
         try:
-            # Search for products
-            products = await self.search_engine.search_products(query)
-            
-            if not products:
-                print("\n❌ No products found for your search.")
-                print("💡 Try using different keywords or more general terms.")
-                return
-            
-            # Generate AI recommendation
-            print("\n🤖 Generating expert recommendation...")
-            recommendation = self.search_engine.generate_recommendation(query, products)
-            
-            # Display results
-            print("\n" + "=" * 60)
-            print("🎯 EXPERT RECOMMENDATION")
-            print("=" * 60)
-            print(recommendation)
-            print("=" * 60)
-            
-            # Ask if user wants to see raw results
-            show_raw = input("\n📋 Show raw product list? (y/n): ").strip().lower()
-            if show_raw in ['y', 'yes']:
-                self.search_engine.print_results(products)
-            
-        except Exception as e:
-            logger.error(f"❌ Search failed: {e}")
-            print(f"❌ Search failed: {e}")
+            # 搜索，返回 result.md 路径
+            result_path = await self.search_engine.search_products(query)
+            if isinstance(result_path, str) and result_path.strip().endswith('.md') and os.path.exists(result_path.strip()):
+                with open(result_path.strip(), 'r', encoding='utf-8') as f:
+                    print(f.read())
+        except Exception:
+            pass
     
     def _handle_exit(self):
         """Handle exit command"""
