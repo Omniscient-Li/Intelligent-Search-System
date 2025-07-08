@@ -15,11 +15,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'config'))
 
 from src.core.dialogue_manager import DialogueManager
-from src.core.semantic_search import SemanticSearchV2
-from src.core.two_stage_system import TwoStageSystem
+from src.core.semantic_search import get_product_details_by_name
+from src.core.two_stage_system import main as two_stage_main
 from src.utils.logger import setup_logger, get_logger
 from src.utils.helpers import create_session_id, format_timestamp
-from config.config import config
+from config import config
 
 def setup_environment():
     """Setup environment variables for better performance"""
@@ -75,11 +75,8 @@ async def run_stage_two(product_name: str) -> bool:
     print("-" * 50)
     
     try:
-        # Create semantic search instance
-        semantic_search = SemanticSearchV2()
-        
-        # Get product details
-        result = await semantic_search.get_product_details_by_name(product_name)
+        # Get product details directly using the function
+        result = await get_product_details_by_name(product_name)
         
         if result:
             print("✅ Product details retrieved successfully!")
