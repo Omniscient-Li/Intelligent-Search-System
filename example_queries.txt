@@ -1,0 +1,8 @@
+# Example queries for batch search testing
+# Each line represents one search query
+
+door handle modern style stainless steel
+kitchen cabinet pull contemporary design
+bathroom hardware chrome finish
+drawer pull traditional brass
+cabinet knob modern minimalist 
