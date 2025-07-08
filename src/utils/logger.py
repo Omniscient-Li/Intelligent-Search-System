@@ -6,7 +6,7 @@ import logging
 import os
 from datetime import datetime
 from typing import Optional
-from config.config import config
+from config import config
 
 class ColoredFormatter(logging.Formatter):
     """Custom colored formatter for console output"""
