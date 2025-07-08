@@ -1,6 +1,6 @@
 import asyncio
-from improved_dialogue_manager import DialogueManager
-from semantic_search_v2 import get_product_details_by_name
+from .dialogue_manager import DialogueManager
+from .semantic_search import get_product_details_by_name
 import re
 
 async def main():
